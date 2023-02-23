@@ -1,11 +1,8 @@
 from flask_smorest import Blueprint, abort
 from flask.views import MethodView
-from flask_jwt_extended import jwt_required, get_jwt, get_jti, get_jwt_identity, create_access_token
+from flask_jwt_extended import jwt_required, get_jwt, get_jwt_identity, create_access_token
 from schemas import UserSchema
 from passlib.hash import pbkdf2_sha256
-
-from datetime import datetime
-from datetime import timezone
 
 from db import db
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
