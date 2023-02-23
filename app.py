@@ -29,7 +29,7 @@ def create_app(db_url=None):
     app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
     app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv("DATABASE_URL", "sqlite:///data.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "eli")
+    app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "this_is_not_so_secret")
 
     # initialization
     db.init_app(app)
@@ -43,7 +43,6 @@ def create_app(db_url=None):
         if BlockListModel.query.filter(BlockListModel.jti == jwt_payload["jti"]).first():
             return True
         return False
-
 
     # register Blueprints
     api.register_blueprint(UserBlueprint)
