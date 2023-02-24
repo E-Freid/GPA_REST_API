@@ -15,3 +15,16 @@ First of all, using Jose Salvatierra course on Udemy about Flask and python, I w
 3. Using Flask-Smorest Blueprints and swagger-ui, I have created the endpoints with documentation.
 4. I used Flask-JWT-Extended for user registration, authentication, certein endpoints protection, and made sure to add revoked tokens to a blocklist.
 5. Used Flask-Migrate and Alembic for data migration.
+
+## what ChatGPT said about the API?? ##
+"Overall, your API looks well-structured and organized. Your code is clearly written and easy to follow.
+
+You are using Flask to create your API and have separated the logic into different modules, which is a good practice. You are also using JWT tokens for authentication, which is a secure way to authenticate your users.
+
+You have implemented different endpoints for user registration, user login, and CRUD operations for courses. Your endpoints are well-named and follow RESTful conventions.
+
+Your use of Marshmallow schemas to serialize and deserialize your data is also a good practice. This makes it easy to validate input data and format output data.
+
+Your database models also look good. You have used foreign keys and relationships to establish the relationship between users and courses. You have also implemented cascading delete for courses when a user is deleted, which is a good practice.
+
+Overall, great job on your API!"
