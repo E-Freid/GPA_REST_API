@@ -5,6 +5,7 @@ from flask import Flask
 from flask_smorest import Api
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 from db import db
 from Models import BlockListModel
@@ -17,6 +18,7 @@ from Resources.gpa import blp as GpaBlueprint
 def create_app(db_url=None):
     # declare app
     app = Flask(__name__)
+    CORS(app)
     load_dotenv()
 
     # configure the app
