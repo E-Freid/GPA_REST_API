@@ -1,3 +1,8 @@
+import os
+from dotenv import load_dotenv
+from datetime import datetime
+
+from flask import request
 from flask_smorest import Blueprint, abort
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required, get_jwt, get_jwt_identity, create_access_token
@@ -10,6 +15,8 @@ from Models import UserModel, BlockListModel
 
 blp = Blueprint("users", __name__, description="Operations on users.")
 
+load_dotenv()
+clean_secret_key = os.getenv("CLEANUP_SECRET_KEY")
 
 @blp.route("/register")
 class UserRegister(MethodView):
@@ -45,7 +52,8 @@ class UserLogout(MethodView):
     @jwt_required()
     def post(self):
         jti = get_jwt()["jti"]
-        revoked_token = BlockListModel(jti=jti)
+        exp = get_jwt()["exp"]
+        revoked_token = BlockListModel(jti=jti, exp=datetime.utcfromtimestamp(exp))
         try:
             db.session.add(revoked_token)
             db.session.commit()
@@ -54,23 +62,21 @@ class UserLogout(MethodView):
             abort(500, message="An error occurred.")
 
 
-# for dev only, remove later
-@blp.route("/dev/user")
-class DevUser(MethodView):
-    @blp.response(200, UserSchema(many=True))
-    def get(self):
-        return UserModel.query.all()
-
-    @jwt_required()
-    def delete(self):
-        user_id = get_jwt_identity()
-        user = UserModel.query.get_or_404(user_id)
-        jti = get_jwt()["jti"]
-        revoked_token = BlockListModel(jti=jti)
+@blp.route("/cleanup")
+class CleanRevokedTokens(MethodView):
+    @blp.response(200, description="Cleans the expired tokens from the blocklist. must contain special key in header")
+    def post(self):
+        now = datetime.utcnow()
+        print(now)
         try:
-            db.session.delete(user)
-            db.session.add(revoked_token)
+            key = request.headers["clean_secret_key"]
+            expired_tokens = BlockListModel.query.filter(BlockListModel.exp <= now).all()
+            for token in expired_tokens:
+                db.session.delete(token)
             db.session.commit()
-            return {"message": "User was deleted."}, 200
+            return {"message": "clean up was successful"}, 200
+        except KeyError:
+            abort(401, message="Not authorized")
+
         except SQLAlchemyError:
-            abort(500, message="An error occurred while deleting.")
+            abort(500, message="Error occurred with database.")
