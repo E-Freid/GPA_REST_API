@@ -18,7 +18,7 @@ def calculate_gpa(courses):
         up += course.grade * course.points
         down += course.points
     result = up/down
-    return result
+    return round(result, 3)
 
 
 @blp.route("/user/gpa")
