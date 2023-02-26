@@ -69,10 +69,13 @@ class CleanRevokedTokens(MethodView):
         now = datetime.utcnow()
         try:
             key = request.headers["clean_secret_key"]
-            expired_tokens = BlockListModel.query.filter(BlockListModel.exp <= now).all()
-            for token in expired_tokens:
-                db.session.delete(token)
-            db.session.commit()
+            if key == clean_secret_key:
+                expired_tokens = BlockListModel.query.filter(BlockListModel.exp <= now).all()
+                for token in expired_tokens:
+                    db.session.delete(token)
+                db.session.commit()
+            else:
+                abort(401, message="Wrong cleanup key, unauthorized.")
             return {"message": "clean up was successful"}, 200
         except KeyError:
             abort(401, message="Not authorized")
