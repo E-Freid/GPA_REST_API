@@ -1,5 +1,6 @@
 # GPA_REST_API
-This is the backend of my Academic record tracker web app. I created it using Python and Flask
+This is the backend of my Academic record tracker web app. I created it using Python and Flask.
+
 link to the web app - https://academic-tracker.onrender.com
 
 ## Why? ##
