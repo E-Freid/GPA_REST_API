@@ -1,6 +1,6 @@
 # GPA_REST_API
 This is the backend of my Academic record tracker web app. I created it using Python and Flask
-link to the web app - < will be inserted when finished >
+link to the web app - https://academic-tracker.onrender.com
 
 ## Why? ##
 As a second year computer science student, I was looking for an app that will be able to record my courses and calculate the GPA accordingly.
