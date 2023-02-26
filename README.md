@@ -31,7 +31,7 @@ The API uses JSON Web Tokens (JWTs) for authentication and authorization. Passli
 - `POST /register` - Create a new user account.
 - `POST /login` - Login with an existing account and get an access token.
 - `POST /logout` - Logout the currently authenticated user.
-- `POST /cleanup` - Clean expired tokens from the blocklist (must contain special key in header).
+- `POST /cleanup` - Clean expired tokens from the blocklist (must contain special key in header). refer to the GET STARTED and to the `/cleanup` endpoint code in user.py.
 
 ### Courses
 - `GET /user/course` - Get a list of courses belonging to the authenticated user. Endpoint must contain JWT token.
