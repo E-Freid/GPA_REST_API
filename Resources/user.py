@@ -67,7 +67,6 @@ class CleanRevokedTokens(MethodView):
     @blp.response(200, description="Cleans the expired tokens from the blocklist. must contain special key in header")
     def post(self):
         now = datetime.utcnow()
-        print(now)
         try:
             key = request.headers["clean_secret_key"]
             expired_tokens = BlockListModel.query.filter(BlockListModel.exp <= now).all()
